@@ -1,6 +1,7 @@
 import { Pinecone } from "@pinecone-database/pinecone";
-import "dotenv/config";
 
-export const pinecone = new Pinecone({
+const pc = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY!,
 });
+
+export const pinecone = pc.Index("yc-companies");

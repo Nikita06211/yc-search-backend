@@ -1,16 +1,11 @@
-import { Router } from "express";
-import { getCompanies, createCompany } from "../controllers/company.controller";
-import { searchCompanies } from "../controllers/search.controller";
+import express from "express";
+import { importYCCompanies } from "../controllers/company.controller";
 
-const router = Router();
+const router = express.Router();
 
-// get all companies
-router.get("/", getCompanies);
-
-// add a new company
-router.post("/", createCompany);
-
-// search companies
-router.post("/search", searchCompanies);
+router.get("/import-yc", async (req, res) => {
+    const result = await importYCCompanies();
+    res.json(result);
+});
 
 export default router;

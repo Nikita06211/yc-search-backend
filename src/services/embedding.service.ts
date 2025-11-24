@@ -13,3 +13,4 @@ export const generateEmbedding = async (text: string) => {
 
     return response.data[0].embedding;
 };
+
