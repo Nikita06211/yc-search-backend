@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getCompanies, createCompany } from "../contollers/company.controller";
+import { getCompanies, createCompany } from "../controllers/company.controller";
+import { searchCompanies } from "../controllers/search.controller";
 
 const router = Router();
 
@@ -8,5 +9,8 @@ router.get("/", getCompanies);
 
 // add a new company
 router.post("/", createCompany);
+
+// search companies
+router.post("/search", searchCompanies);
 
 export default router;
