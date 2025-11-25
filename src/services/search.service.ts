@@ -26,7 +26,7 @@ export const searchCompanies = async (
 
         const result = await pinecone.query({
             vector: queryEmbedding,
-            topK: offset + limit,
+            topK: 100,
             includeMetadata: true,
         });
 
