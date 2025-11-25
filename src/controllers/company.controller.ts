@@ -35,6 +35,12 @@ export async function importYCCompanies() {
                 industry: company.industry || "",
                 one_liner: company.one_liner || "",
                 description: company.long_description || "",
+                location: company.all_locations || "",
+                regions: Array.isArray(company.regions) ? company.regions : [],
+                stage: company.stage || "",
+                team_size: company.team_size || 0,
+                tags: Array.isArray(company.tags) ? company.tags : [],
+                isHiring: company.isHiring || false,
             },
         }));
 
