@@ -3,10 +3,11 @@ import { searchCompanies } from "../services/search.service";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
-    const query = req.body.query;
-    const results = await searchCompanies(query);
-    res.json(results);
+router.post("/search", async (req, res) => {
+    const { query, page = 1, limit = 10 } = req.body;
+
+    const response = await searchCompanies(query, Number(page), Number(limit));
+    res.json(response);
 });
 
 

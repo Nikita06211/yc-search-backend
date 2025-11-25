@@ -5,7 +5,6 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY!,
 });
 
-// ----------- Create embedding for user query -----------
 async function embedQuery(query: string) {
     const response = await openai.embeddings.create({
         model: "text-embedding-3-small",
@@ -15,23 +14,31 @@ async function embedQuery(query: string) {
     return response.data[0].embedding;
 }
 
-// ----------- Search Service -----------
-export const searchCompanies = async (query: string) => {
+export const searchCompanies = async (
+    query: string,
+    page: number = 1,
+    limit: number = 10
+) => {
     try {
-        // 1. Embed the query
         const queryEmbedding = await embedQuery(query);
 
-        // 2. Query Pinecone index
+        const offset = (page - 1) * limit;
+
         const result = await pinecone.query({
-            topK: 5,
             vector: queryEmbedding,
+            topK: offset + limit,
             includeMetadata: true,
         });
 
-        // 3. Format response
+        const allMatches = result.matches || [];
+        const paginated = allMatches.slice(offset, offset + limit);
+
         return {
             success: true,
-            matches: result.matches?.map((m: any) => ({
+            page,
+            limit,
+            total: allMatches.length,
+            matches: paginated.map((m: any) => ({
                 score: m.score,
                 name: m.metadata?.name,
                 description: m.metadata?.description,
